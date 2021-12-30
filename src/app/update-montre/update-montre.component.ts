@@ -17,25 +17,33 @@ import { Categorie } from '../model/categorie.model';
 export class UpdateMontreComponent implements OnInit {
   currentMontre = new Montre();
   categories : Categorie[];
-updatedCategorie : Categorie;
+    updatedCategorie : Categorie;
 
   constructor(private activatedRoute: ActivatedRoute,
     private router :Router,
     private montreService: MontreService) { }
 
   ngOnInit() {
-    this.categories = this.montreService.listeCategories();
-    this.currentMontre = this.montreService.consulterMontre(this.activatedRoute.snapshot.params.id);
+    //this.categories = this.montreService.listeCategories();
+    //this.currentMontre = this.montreService.consulterMontre(this.activatedRoute.snapshot.params.id);
+    this.montreService.consulterMontre(this.activatedRoute.snapshot.params.id).
+    subscribe( prod =>{ this.currentMontre = prod; } ) ;
+
+
+    this.montreService.listeCategories().subscribe(prods => {
+      console.log(prods);
+      this.categories= prods;
+      });
+
+
 
 
   }
   updateMontre()
-  { //console.log(this.currentProduit);
-    this.updatedCategorie =
-this.montreService.consulterCategorie(this.currentMontre.categorie.idCat);
-this.currentMontre.categorie = this.updatedCategorie;
-  this.montreService.updateMontre(this.currentMontre);
-  this.router.navigate(['montres']);
+  { this.montreService.updateMontre(this.currentMontre).subscribe(prod => {
+    this.router.navigate(['montres']);
+    },(error) => { alert("Problème lors de la modification !"); }
+    );
 
   }
   

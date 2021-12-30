@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Montre } from '../model/montre.model';
 import { MontreService } from '../services/montre.service';
 import { Categorie } from '../model/categorie.model';
+import { observable, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recherche-par-categorie',
@@ -23,10 +24,28 @@ export class RechercheParCategorieComponent implements OnInit {
 
   ngOnInit() {
 
-    this.categories = this.montreService.listeCategories();
+    this.montreService.listeCategories().subscribe(prods => {
+      console.log(prods);
+      this.categories= prods;
+      });
 
+
+
+
+
+
+      
   }
   onChange() {
-    this.montres=    this.montreService.rechercherParCategorie(this.IdCategorie);
+
+    this.montreService.rechercherParCategorie(this.IdCategorie).subscribe(prods => {
+      console.log(prods);
+      this.montres= prods;
+      });
+
+
+
+
+   // this.montres=    this.montreService.rechercherParCategorie(this.IdCategorie);
     }
 }

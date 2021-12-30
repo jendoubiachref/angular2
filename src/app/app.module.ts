@@ -8,6 +8,7 @@ import { AddMontreComponent } from './add-montre/add-montre.component';
 import { FormsModule } from '@angular/forms';
 import { UpdateMontreComponent } from './update-montre/update-montre.component';
 import { RechercheParCategorieComponent } from './recherche-par-categorie/recherche-par-categorie.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { RechercheParCategorieComponent } from './recherche-par-categorie/recher
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
