@@ -4,6 +4,7 @@ import { Montre } from '../model/montre.model';
 import { MontreService } from '../services/montre.service';
 //import { Observable } from 'rxjs';
 import { ActivatedRoute,Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-montres',
@@ -14,7 +15,7 @@ export class MontresComponent implements OnInit {
 
   montres : Montre[]; //un tableau des montres
   //categories :Categorie[];
-  constructor(private montreService: MontreService , private router :Router) { 
+  constructor(private montreService: MontreService , private router :Router ,public authService: AuthService) { 
 
    
       

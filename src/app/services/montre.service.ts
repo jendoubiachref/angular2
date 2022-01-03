@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Montre } from '../model/montre.model';
 import { Categorie } from '../model/categorie.model';
-
+import { AuthService } from './auth.service';
 
 import { ActivatedRoute,Router } from '@angular/router';
 import { observable, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
+ 
+
 //import { url } from 'inspector';
 const httpOptions = {
   headers: new HttpHeaders( {'Content-Type': 'application/json'} )
@@ -24,7 +26,7 @@ montresRecherche : Montre[];
 apiURL: string = 'http://localhost:8090/montres/api';
 catapiurl: string='http://localhost:8090/montres/api/prodscats/';
 //server.servlet.context-path=/montres;
-  constructor( private http : HttpClient,private router :Router ) {
+  constructor( private http : HttpClient,private router :Router  ,private authService:AuthService) {
  // this.categories = [ {idCat : 1, nomCat : "categorie1",descriptionCat:"desc"}];
  // {idCat : 2, nomCat : "categorie2"}];
  // this.montres = [
@@ -42,26 +44,33 @@ catapiurl: string='http://localhost:8090/montres/api/prodscats/';
   }
 
 
-  listeMontres():Observable<Montre[]> {
-  //return this.montres;
-  return this.http.get<Montre[]>(this.apiURL);
+  /*listeMontres():Observable<Montre[]> {
+   return this.http.get<Montre[]>(this.apiURL);
   }
+*/
+
+
+listeMontres(): Observable<Montre[]>{
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.get<Montre[]>(this.apiURL+"/all",{headers:httpHeaders}
+    );
+    }
+
+
+
+
+
   listeCategories():Observable<Categorie[]> {
-    //return this.montres;
-    return this.http.get<Categorie[]>(this.catapiurl);
+     return this.http.get<Categorie[]>(this.catapiurl);
     }
   
 
     rechercherParCategorie(idCat: number):Observable<Montre[]>{
       const url = `${this.apiURL}/prodscat/${idCat}`;
        
-     // this.montres.forEach((cur, index) => {
-     // if(idCat == cur.categorie.idCat) {
-     // console.log("cur "+cur);
-     // this.montresRecherche.push(cur);
-    //  }
-    //  });
-     // return  this.montresRecherche;
+      
       
       return   this.http.get<Montre[]>(url);
       }
@@ -74,9 +83,23 @@ catapiurl: string='http://localhost:8090/montres/api/prodscats/';
   //  })
 
 
-
-
   ajouterMontre( prod: String){
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    let body = JSON.stringify({ prod }); 
+    return this.http.post<Montre>(this.apiURL, prod , {headers:httpHeaders}) 
+    .subscribe(prod=>{this.montre=prod;
+    
+      this.router.navigate(['montres']);
+    } ,(error) => { alert("Problème lors de la modification !"); });
+    
+
+
+    }
+    
+
+  /* ajouterMontre( prod: String){
    
     //return this.http.post<Montre>(this.apiURL, prod, httpOptions);
    // let body = JSON.stringify({ prod }); 
@@ -85,20 +108,28 @@ catapiurl: string='http://localhost:8090/montres/api/prodscats/';
     
       this.router.navigate(['montres']);
     } ,(error) => { alert("Problème lors de la modification !"); });
+     
 
-    
- 
-  
-
-  }
+  }*/ 
 
 
   supprimerMontre( id: number){
+
+     
     const url = `${this.apiURL}/${id}`;
+      let jwt = this.authService.getToken();
+      jwt = "Bearer "+jwt;
+      let httpHeaders = new HttpHeaders({"Authorization":jwt})
+     
+      
+      
+
+
+ 
    
 
    
-    return this.http.delete(url, httpOptions);
+    return this.http.delete(url, {headers:httpHeaders});
 
   //supprimer le produit prod du tableau produits
   //const index = this.montres.indexOf(prod, 0);
@@ -112,13 +143,27 @@ catapiurl: string='http://localhost:8090/montres/api/prodscats/';
 
   consulterMontre(id:number): Observable<Montre>{
     const url = `${this.apiURL}/${id}`;
-    return  this.http.get<Montre>(url);
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.get<Montre>(url,{headers:httpHeaders});
+
+
+
+
+
+
+    
     
     }
     
     updateMontre(p:Montre):Observable<Montre>
     {
-      return this.http.put<Montre>(this.apiURL, p, httpOptions);
+      let jwt = this.authService.getToken();
+jwt = "Bearer "+jwt;
+let httpHeaders = new HttpHeaders({"Authorization":jwt})
+return this.http.put<Montre>(this.apiURL, prod, {headers:httpHeaders});
+      
 
     // console.log(p);
    // this.supprimerMontre(p);

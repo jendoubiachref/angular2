@@ -103,35 +103,18 @@ label,select,option ,input[type=text] ,input[type=date]{
 
 
 
-
-.navbar  .dropdown {
-    
-    padding: 0px 5;
-    text-align: center;
-    
-    text-decoration: none;   
-}
+ 
 .navbar  ul li a {
     
-    text-decoration: none;  
+     
     transition: 0.3s;
+   
 
 }
-.navbar .dropdown-content {
-    display: none;
-    position: absolute; 
-    text-decoration: none;
-    
-    
-    text-align: left;
-    padding: 5px 50;
-}  
-.navbar .dropdown:hover .dropdown-content {
-    display: block;
-    min-width: 100px;
-}
+  
+ 
 .navbar a:hover{
      
-    
+     
     font-size: 30px;    
 }

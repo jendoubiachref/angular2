@@ -9,13 +9,17 @@ import { FormsModule } from '@angular/forms';
 import { UpdateMontreComponent } from './update-montre/update-montre.component';
 import { RechercheParCategorieComponent } from './recherche-par-categorie/recherche-par-categorie.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 @NgModule({
   declarations: [
     AppComponent,
     MontresComponent,
     AddMontreComponent,
     UpdateMontreComponent,
-    RechercheParCategorieComponent
+    RechercheParCategorieComponent,
+    LoginComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,

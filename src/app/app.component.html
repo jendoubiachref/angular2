@@ -27,18 +27,19 @@ Montres
 </li>
 </ul>
 <ul class="navbar-nav ml-auto" >
-<li class="nav-item dropdown">
-<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-  [username]
-</a>
-<div class="dropdown-menu">
-<a class="dropdown-item" href="#">login</a>
-<a class="dropdown-item" href="#">logout</a>
-<a class="dropdown-item" href="#">Profile</a>
-</div>
-</li>
-</ul>
-</nav>
-</body>
-</html>
-<router-outlet></router-outlet>
+  <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+    {{authService.loggedUser}}
+  </a>
+  <div class="dropdown-menu">
+  <a class="dropdown-item"  *ngIf="!authService.isloggedIn"  href="#">login</a>
+  <a *ngIf="authService.isloggedIn"  class="dropdown-item"   href="#">logout</a>
+  <a *ngIf="authService.isloggedIn"  class="dropdown-item" href="#">Profile</a>
+  </div>
+  </li>
+  </ul>
+  </nav>
+  </body>
+  </html>
+  <router-outlet></router-outlet>
+  
